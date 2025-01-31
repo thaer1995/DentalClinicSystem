@@ -1,0 +1,70 @@
+﻿
+@model InvoiceViewModel
+
+<div class="container">
+    <h2>إنشاء فاتورة جديدة</h2>
+    <form asp-action="Create">
+        <input type="hidden" asp-for="PatientId" />
+
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">معلومات المريض</h5>
+                <p class="card-text">
+                    <strong>الاسم:</strong> @ViewBag.Patient.Name<br />
+                    <strong>رقم الهاتف:</strong> @ViewBag.Patient.PhoneNumber
+                </p>
+            </div>
+        </div>
+
+        <div id="treatmentItems">
+            <h5>العلاجات</h5>
+            <div class="treatment-item mb-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <select class="form-control treatment-select" name="Items[0].TreatmentId">
+                            <option value="">اختر العلاج</option>
+                            @foreach (var treatment in ViewBag.Treatments)
+                            {
+                                <option value="@treatment.Id" data-price="@treatment.Cost">@treatment.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" class="form-control quantity" name="Items[0].Quantity" value="1" min="1" />
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" class="form-control price" name="Items[0].Price" readonly />
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" class="form-control total" readonly />
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-danger remove-item">حذف</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" id="addTreatment" class="btn btn-success mb-3">إضافة علاج</button>
+
+        <div class="row">
+            <div class="col-md-6 offset-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">ملخص الفاتورة</h5>
+                        <div class="d-flex justify-content-between">
+                            <span>المجموع الكلي:</span>
+                            <span id="totalAmount">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <button type="submit" class="btn btn-primary">حفظ الفاتورة</button>
+            <a asp-action="Index" class="btn btn-secondary">رجوع</a>
+        </div>
+    </form>
+</div>
+

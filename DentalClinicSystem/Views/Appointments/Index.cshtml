@@ -1,0 +1,39 @@
+﻿// Views/Appointments/Index.cshtml
+@model IEnumerable<Appointment>
+
+<div class="container">
+    <h2>جدول المواعيد</h2>
+    <a asp-action="Create" class="btn btn-primary mb-3">إضافة موعد جديد</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>المريض</th>
+                <th>الطبيب</th>
+                <th>التاريخ والوقت</th>
+                <th>العلاج</th>
+                <th>الحالة</th>
+                <th>الإجراءات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var appointment in Model)
+            {
+                <tr>
+                    <td>@appointment.Patient.Name</td>
+                    <td>@appointment.Doctor.Name</td>
+                    <td>@appointment.AppointmentDate.ToString("g")</td>
+                    <td>@appointment.Treatment</td>
+                    <td>@appointment.Status</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@appointment.Id" class="btn btn-warning btn-sm">تعديل</a>
+                        <a asp-action="Details" asp-route-id="@appointment.Id" class="btn btn-info btn-sm">تفاصيل</a>
+                        <a asp-action="Cancel" asp-route-id="@appointment.Id" class="btn btn-danger btn-sm"
+                           onclick="return confirm('هل أنت متأكد من إلغاء الموعد؟')">إلغاء</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
